@@ -311,24 +311,24 @@ body {
 }
 .hero-title-line1 {
   font-weight: 500;
-  font-size: 63px;
-  line-height: 67px;
+  font-size: 47px;
+  line-height: 50px;
   color: var(--blue-12);
   text-rendering: optimizeLegibility;
 }
 .hero-title-line2 {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 63px;
-  line-height: 67px;
+  font-size: 47px;
+  line-height: 50px;
   color: var(--forest-green);
   text-rendering: optimizeLegibility;
 }
 .hero-subtitle {
   margin-top: 24px;
   font-weight: 400;
-  font-size: 17px;
-  line-height: 28.9px;
+  font-size: 13px;
+  line-height: 21.7px;
   color: var(--grey-45);
   max-width: 460px;
   margin-left: auto;
@@ -1701,7 +1701,7 @@ body {
 /* -- Fluid typography with clamp (scales 375px → 1440px → 3840px) -- */
 .hero-title-line1,
 .hero-title-line2 {
-  font-size: clamp(32px, 5vw, 80px);
+  font-size: clamp(24px, 3.75vw, 60px);
   line-height: 1.06;
 }
 .hiw-title {
@@ -1751,7 +1751,7 @@ body {
   .nav { padding: 0 16px; height: 56px; }
   .nav-buttons .btn-base { padding: 8px 16px; font-size: 13px; }
 
-  .hero-subtitle { font-size: 15px; line-height: 24px; }
+  .hero-subtitle { font-size: 11px; line-height: 18px; }
   .hero-cta .btn-pill { padding: 0 28px; height: 46px; font-size: 14px; }
   .hero-bottom { height: 40px; }
 
@@ -1881,7 +1881,7 @@ body {
   .hiw-steps { max-width: 720px; }
   .hiw-step-card { padding: 36px 40px; }
 
-  .hero-subtitle { font-size: 18px; max-width: 520px; }
+  .hero-subtitle { font-size: 14px; max-width: 520px; }
   .hero-cta .btn-pill { height: 56px; padding: 0 56px; font-size: 17px; }
   .btn-base { font-size: 17px; }
 
@@ -1915,7 +1915,7 @@ body {
   .hiw-step-text { font-size: 17px; line-height: 30px; }
   .hiw-desc { font-size: 18px; max-width: 600px; }
 
-  .hero-subtitle { font-size: 20px; max-width: 580px; line-height: 32px; }
+  .hero-subtitle { font-size: 15px; max-width: 580px; line-height: 24px; }
   .hero-cta .btn-pill { height: 60px; padding: 0 64px; font-size: 18px; }
   .btn-base { font-size: 18px; }
 
