@@ -16,7 +16,7 @@ export default function TypingText({
   text,
   className = '',
   tag = 'div',
-  charDelay = 0.03,
+  charDelay = 0.018,
   startDelay = 0,
   once = false,
 }: TypingTextProps) {
@@ -35,12 +35,12 @@ export default function TypingText({
       {chars.map((char, i) => (
         <motion.span
           key={i}
-          initial={{ opacity: 0, y: 8 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 6 }}
           transition={{
-            duration: 0.25,
+            duration: 0.15,
             delay: startDelay + i * charDelay,
-            ease: [0.16, 1, 0.3, 1],
+            ease: [0.25, 1, 0.5, 1],
           }}
           style={{ display: 'inline-block', whiteSpace: char === ' ' ? 'pre' : undefined }}
         >

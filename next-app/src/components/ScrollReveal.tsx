@@ -18,10 +18,10 @@ export default function ScrollReveal({
   children,
   className = '',
   delay = 0,
-  y = 40,
+  y = 30,
   x = 0,
   scale = 1,
-  duration = 0.8,
+  duration = 0.45,
   once = false,
 }: ScrollRevealProps) {
   return (
@@ -32,7 +32,7 @@ export default function ScrollReveal({
       transition={{
         duration,
         delay,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.25, 1, 0.5, 1],
       }}
       className={className}
     >

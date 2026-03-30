@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { faqItems } from '@/lib/constants';
 import ScrollReveal from './ScrollReveal';
@@ -10,6 +10,32 @@ export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const answerRefs = useRef<Map<number, { typed: boolean; abortId: ReturnType<typeof setTimeout> | null; aborted: boolean }>>(new Map());
   const paragraphRefs = useRef<(HTMLParagraphElement | null)[]>([]);
+  const wrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const observerRefs = useRef<Map<number, ResizeObserver>>(new Map());
+
+  const startObserving = useCallback((index: number) => {
+    const wrapper = wrapperRefs.current[index];
+    const content = contentRefs.current[index];
+    if (!wrapper || !content) return;
+
+    // Clean up previous observer
+    observerRefs.current.get(index)?.disconnect();
+
+    const ro = new ResizeObserver(() => {
+      const h = content.scrollHeight;
+      wrapper.style.height = h + 'px';
+    });
+    ro.observe(content);
+    observerRefs.current.set(index, ro);
+  }, []);
+
+  const stopObserving = useCallback((index: number) => {
+    observerRefs.current.get(index)?.disconnect();
+    observerRefs.current.delete(index);
+    const wrapper = wrapperRefs.current[index];
+    if (wrapper) wrapper.style.height = '0px';
+  }, []);
 
   const resetAnswer = useCallback((index: number) => {
     const data = answerRefs.current.get(index);
@@ -18,9 +44,10 @@ export default function FaqAccordion() {
       data.aborted = true;
       data.typed = false;
     }
+    stopObserving(index);
     const p = paragraphRefs.current[index];
     if (p) p.textContent = '';
-  }, []);
+  }, [stopObserving]);
 
   const typeAnswer = useCallback((index: number) => {
     let data = answerRefs.current.get(index);
@@ -37,23 +64,22 @@ export default function FaqAccordion() {
     const words = text.split(/\s+/);
     p.innerHTML = '';
 
-    const spans = words.map(w => {
-      const span = document.createElement('span');
-      span.className = 'faq-word';
-      span.textContent = w + ' ';
-      p.appendChild(span);
-      return span;
-    });
+    startObserving(index);
 
     const cursor = document.createElement('span');
     cursor.style.cssText = 'display:inline-block;width:2px;height:1em;background:rgba(255,255,255,0.85);margin-left:1px;vertical-align:text-bottom;animation:faq-blink 0.6s steps(1) infinite;';
 
+    const pEl = p;
     let i = 0;
     function showNext() {
       if (data!.aborted) { cursor.remove(); return; }
-      if (i < spans.length) {
-        spans[i].classList.add('visible');
-        spans[i].after(cursor);
+      if (i < words.length) {
+        const span = document.createElement('span');
+        span.className = 'faq-word visible';
+        span.textContent = words[i] + ' ';
+        cursor.remove();
+        pEl.appendChild(span);
+        pEl.appendChild(cursor);
         i++;
         data!.abortId = setTimeout(showNext, 35);
       } else {
@@ -62,7 +88,7 @@ export default function FaqAccordion() {
       }
     }
     data.abortId = setTimeout(showNext, 80);
-  }, []);
+  }, [startObserving]);
 
   const handleToggle = useCallback((index: number) => {
     const isOpen = openIndex === index;
@@ -74,11 +100,18 @@ export default function FaqAccordion() {
     if (isOpen) {
       setOpenIndex(null);
     } else {
-      setOpenIndex(index);
       resetAnswer(index);
-      setTimeout(() => typeAnswer(index), 250);
+      setOpenIndex(index);
+      setTimeout(() => typeAnswer(index), 150);
     }
   }, [openIndex, resetAnswer, typeAnswer]);
+
+  // Cleanup observers on unmount
+  useEffect(() => {
+    return () => {
+      observerRefs.current.forEach(ro => ro.disconnect());
+    };
+  }, []);
 
   return (
     <section className="faq">
@@ -88,41 +121,33 @@ export default function FaqAccordion() {
             text="You got questions?"
             className="faq-heading"
             tag="h2"
-            charDelay={0.03}
+            charDelay={0.018}
             startDelay={0.1}
           />
-          <ScrollReveal delay={0.5}>
-            <em style={{
-              fontFamily: 'var(--font-serif)',
-              fontStyle: 'italic',
-              display: 'block',
-              color: 'var(--forest-green)',
-              fontSize: '44px',
-              lineHeight: 1.15,
-              fontWeight: 800,
-            }}>
+          <ScrollReveal delay={0.25}>
+            <span className="faq-heading-italic">
               We got answers.
-            </em>
+            </span>
           </ScrollReveal>
-          <ScrollReveal delay={0.6}>
+          <ScrollReveal delay={0.35}>
             <p className="faq-subtitle">Everything you need to know about the Flent Referral Program.</p>
           </ScrollReveal>
         </div>
 
-        <ScrollReveal className="faq-right" delay={0.15}>
+        <ScrollReveal className="faq-right" delay={0.08}>
           <p className="faq-right-label">Common questions about referrals</p>
           <div className="faq-list">
             {faqItems.map((item, i) => (
               <motion.div
                 key={i}
                 className={`faq-item${openIndex === i ? ' open' : ''}`}
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: 15 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false, amount: 0.1 }}
                 transition={{
-                  duration: 0.5,
-                  delay: i * 0.06,
-                  ease: [0.16, 1, 0.3, 1],
+                  duration: 0.3,
+                  delay: i * 0.035,
+                  ease: [0.25, 1, 0.5, 1],
                 }}
               >
                 <button className="faq-button" onClick={() => handleToggle(i)}>
@@ -130,13 +155,13 @@ export default function FaqAccordion() {
                   <motion.span
                     className="faq-toggle"
                     animate={{ rotate: openIndex === i ? 45 : 0 }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.15, ease: [0.25, 1, 0.5, 1] }}
                   >
                     +
                   </motion.span>
                 </button>
-                <div className="faq-answer">
-                  <div>
+                <div className="faq-answer" ref={(el) => { wrapperRefs.current[i] = el; }}>
+                  <div ref={(el) => { contentRefs.current[i] = el; }}>
                     <div className="faq-answer-card">
                       <p ref={(el) => { paragraphRefs.current[i] = el; }} />
                     </div>

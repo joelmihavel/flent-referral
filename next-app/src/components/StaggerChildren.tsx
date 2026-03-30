@@ -16,7 +16,7 @@ const containerVariants = (stagger: number) => ({
   visible: {
     transition: {
       staggerChildren: stagger,
-      delayChildren: 0.1,
+      delayChildren: 0.05,
     },
   },
 });
@@ -27,8 +27,8 @@ export const childVariants = (y: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      duration: 0.35,
+      ease: [0.25, 1, 0.5, 1] as [number, number, number, number],
     },
   },
 });
@@ -36,8 +36,8 @@ export const childVariants = (y: number) => ({
 export default function StaggerChildren({
   children,
   className = '',
-  stagger = 0.1,
-  y = 30,
+  stagger = 0.06,
+  y = 25,
   once = false,
 }: StaggerChildrenProps) {
   return (
@@ -53,7 +53,7 @@ export default function StaggerChildren({
   );
 }
 
-export function StaggerItem({ children, className = '', y = 30 }: { children: ReactNode; className?: string; y?: number }) {
+export function StaggerItem({ children, className = '', y = 25 }: { children: ReactNode; className?: string; y?: number }) {
   return (
     <motion.div className={className} variants={childVariants(y)}>
       {children}

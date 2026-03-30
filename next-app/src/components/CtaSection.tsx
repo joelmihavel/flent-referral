@@ -13,16 +13,16 @@ export default function CtaSection() {
           text="Your next reward is"
           className="cta-title"
           tag="h2"
-          charDelay={0.035}
-          startDelay={0.1}
+          charDelay={0.02}
+          startDelay={0.05}
         />
-        <ScrollReveal delay={0.5}>
+        <ScrollReveal delay={0.25}>
           <div className="cta-title-italic">one referral away.</div>
         </ScrollReveal>
-        <ScrollReveal delay={0.7}>
+        <ScrollReveal delay={0.38}>
           <p className="cta-desc">Free to join. Takes under a minute. Your code is waiting.</p>
         </ScrollReveal>
-        <ScrollReveal delay={0.85}>
+        <ScrollReveal delay={0.48}>
           <div className="cta-buttons">
             <motion.a
               href="#"

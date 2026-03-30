@@ -67,8 +67,8 @@
 
   /* 02 — Typography */
   --font-sans: 'Plus Jakarta Sans', 'Plus Jakarta Sans Fallback', sans-serif;
-  --font-serif: 'Zin Display', 'Zin Display Fallback', Georgia, serif;
-  --font-zin: 'Zin Display', 'Zin Display Fallback';
+  --font-serif: var(--font-zin-display), Georgia, serif;
+  --font-zin: var(--font-zin-display);
 
   /* 05 — Spacing (4px base unit) */
   --space-1: 4px;
@@ -101,6 +101,7 @@
 
 /* ===== GLOBAL RESET ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
+em, i { font-style: normal; }
 
 /* Lenis handles smooth scroll — no native scroll-behavior needed */
 
@@ -258,6 +259,16 @@ body {
 }
 .btn-pill-white:hover { box-shadow: #fff -1px 1px 0px; }
 
+.btn-pill-dark {
+  background: var(--blue-12);
+  color: #fff;
+  border: 1px solid var(--blue-12);
+  border-radius: 16px;
+  padding: 14px 44px;
+  box-shadow: var(--blue-12) -3px 3px 0px;
+}
+.btn-pill-dark:hover { box-shadow: var(--blue-12) -1px 1px 0px; }
+
 /* ===== HERO ===== */
 .hero {
   position: relative;
@@ -299,7 +310,7 @@ body {
   gap: 4px;
 }
 .hero-title-line1 {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 63px;
   line-height: 67px;
   color: var(--blue-12);
@@ -307,11 +318,10 @@ body {
 }
 .hero-title-line2 {
   font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 63px;
   line-height: 67px;
-  color: var(--blue-12);
+  color: var(--forest-green);
   text-rendering: optimizeLegibility;
 }
 .hero-subtitle {
@@ -397,7 +407,6 @@ body {
   gap: 0;
   padding-right: 40px;
   font-family: var(--font-serif);
-  font-style: italic;
   font-size: 24px;
   font-weight: 400;
   color: var(--blue-12);
@@ -447,10 +456,9 @@ body {
 .stat-item:nth-child(3) { background: rgba(51,40,115,0.06); }
 .stat-number {
   font-family: var(--font-serif);
-  font-style: italic;
   font-size: 64px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 400;
 }
 .stat-item:nth-child(1) .stat-number { color: var(--forest-green); }
 .stat-item:nth-child(2) .stat-number { color: var(--coral-accent); }
@@ -482,13 +490,13 @@ body {
   max-width: 960px;
   margin: 0 auto;
 }
-.hiw-header { text-align: center; }
+.hiw-header { text-align: center; max-width: 960px; margin: 0 auto; }
 .hiw-title {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 48px;
   line-height: 54px;
-  color: var(--blue-12);
+  color: var(--forest-green);
   margin-top: 15px;
   text-rendering: optimizeLegibility;
 }
@@ -546,9 +554,8 @@ body {
   align-items: center;
   justify-content: center;
   font-family: var(--font-serif);
-  font-style: italic;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 400;
   color: rgba(21,16,46,0.25);
   transition: background 0.4s var(--ease-out), border-color 0.4s var(--ease-out), color 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
   z-index: 2;
@@ -582,7 +589,7 @@ body {
 }
 .hiw-step-num {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 48px;
   line-height: 1;
   color: var(--blue-12);
@@ -609,8 +616,7 @@ body {
 .hiw-step-body { position: relative; z-index: 1; }
 .hiw-step-title {
   font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 26px;
   line-height: 32px;
   color: var(--blue-12);
@@ -648,10 +654,10 @@ body {
 }
 .rewards-title {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 48px;
   line-height: 52.8px;
-  color: var(--blue-12);
+  color: var(--coral-accent);
   text-align: center;
   margin-top: 15px;
   text-rendering: optimizeLegibility;
@@ -716,7 +722,7 @@ body {
 }
 .slot-coin-number {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 36px;
   line-height: 1;
   color: var(--blue-12);
@@ -953,7 +959,7 @@ body {
 }
 .slot-popup-prize {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 52px;
   line-height: 1;
   color: var(--blue-12);
@@ -1050,10 +1056,10 @@ body {
 }
 .friend-title {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 40px;
   line-height: 48px;
-  color: var(--blue-12);
+  color: var(--info);
   text-align: center;
   margin-top: 16px;
   text-rendering: optimizeLegibility;
@@ -1128,10 +1134,10 @@ body {
 .fb-hero-icon svg { width: 26px; height: 26px; color: var(--forest-green); }
 .fb-hero-amount {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 64px;
   line-height: 1;
-  color: var(--forest-green);
+  color: var(--blue-12);
 }
 .fb-hero-amount-label {
   font-weight: 800;
@@ -1149,7 +1155,7 @@ body {
 }
 .fb-hero-heading {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 28px;
   line-height: 34px;
   color: var(--blue-12);
@@ -1180,10 +1186,10 @@ body {
 .fb-tall-icon svg { width: 22px; height: 22px; color: var(--blue-12); }
 .fb-tall-keyword {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 52px;
   line-height: 1;
-  color: var(--orange-32);
+  color: var(--blue-12);
   margin-top: 24px;
 }
 .fb-tall-heading {
@@ -1224,7 +1230,7 @@ body {
 }
 .fb-compact-number {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 44px;
   line-height: 1;
   color: var(--blue-12);
@@ -1269,10 +1275,10 @@ body {
 }
 .community-title {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 40px;
   line-height: 48px;
-  color: var(--blue-12);
+  color: var(--forest-green);
   text-align: center;
   margin-top: 16px;
   text-rendering: optimizeLegibility;
@@ -1322,7 +1328,7 @@ body {
   align-items: center;
   justify-content: center;
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 36px;
   color: var(--blue-12);
 }
@@ -1380,7 +1386,7 @@ body {
   display: flex;
   align-items: center;
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 32px;
   padding: 0 2px;
   height: 64px;
@@ -1423,18 +1429,27 @@ body {
 .faq-left { position: sticky; top: 120px; }
 .faq-heading {
   font-family: var(--font-sans);
-  font-weight: 800;
+  font-weight: 500;
   font-size: 44px;
   line-height: 1.15;
   color: var(--blue-12);
+}
+.faq-heading-italic {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  display: block;
+  color: var(--forest-green);
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.15;
+  font-weight: 800;
   margin: 0;
   text-rendering: optimizeLegibility;
 }
 .faq-heading em {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   display: block;
-  color: var(--forest-green);
+  color: var(--blue-12);
 }
 .faq-subtitle {
   font-family: var(--font-sans);
@@ -1498,17 +1513,15 @@ body {
   transition: opacity 0.2s;
 }
 .faq-answer {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.35s ease,
-              padding 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  height: 0;
   opacity: 0;
   padding: 0 4px;
+  transition: height 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.3s ease,
+              padding 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.faq-answer > div { overflow: hidden; }
 .faq-item.open .faq-answer {
-  grid-template-rows: 1fr;
   opacity: 1;
   padding: 0 4px 22px;
 }
@@ -1583,58 +1596,45 @@ body {
 }
 .faq-footer a:hover { opacity: 0.8; }
 
-@media (max-width: 768px) {
-  .faq-inner {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .faq-left { position: static; }
-  .faq-heading { font-size: 32px; }
-  .faq-question { font-size: 20px; }
-}
+/* (responsive rules moved to bottom of file) */
 
-/* ===== CTA ===== */
-.cta-section {
-  background: var(--orange-32);
-  padding: 96px 20px;
+/* ===== FOOTER MEGA ===== */
+.footer-mega {
   position: relative;
+  background: #f5e6d0;
+  min-height: 850px;
   overflow: hidden;
+}
+.footer-mega-cta {
+  position: relative;
+  z-index: 4;
   text-align: center;
-}
-.cta-bg {
-  position: absolute;
-  inset: 0;
-  opacity: 0.035;
-  background-image: url('/assets/pattern-zigzag.svg');
-  background-size: 40px 12px;
-  background-repeat: repeat;
-}
-.cta-inner {
+  padding: 88px 20px 0;
   max-width: 700px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
+  background: linear-gradient(to bottom, #f5e6d0 0%, #f5e6d0 85%, transparent 100%);
+  padding-bottom: 56px;
 }
 .cta-title {
-  font-weight: 700;
+  font-weight: 500;
   font-size: 54px;
   line-height: 58.32px;
-  color: var(--white);
+  color: var(--blue-12);
   text-rendering: optimizeLegibility;
 }
 .cta-title-italic {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-weight: 400;
   font-size: 54px;
   line-height: 58.32px;
-  color: rgba(255,255,255,0.75);
+  color: var(--info);
   margin-top: 8px;
 }
 .cta-desc {
   font-weight: 400;
   font-size: 16px;
   line-height: 28px;
-  color: rgba(255,255,255,0.55);
+  color: rgba(21,16,46,0.5);
   max-width: 380px;
   margin: 24px auto 0;
 }
@@ -1649,34 +1649,298 @@ body {
   font-weight: 500;
   font-size: 13px;
   line-height: 19.5px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(21,16,46,0.4);
 }
-
-/* ===== FOOTER ===== */
-.footer {
-  border-top: 1px solid var(--grey-90);
-  padding: 28px 20px;
+.footer-mega-canvas {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  cursor: grab;
 }
-.footer-inner {
-  max-width: 1000px;
-  margin: 0 auto;
+.footer-mega-canvas:active { cursor: grabbing; }
+.footer-mega-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 20px 20px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
+  max-width: 1000px;
+  margin: 0 auto;
+  pointer-events: none;
+  background: linear-gradient(to top, #f5e6d0 0%, rgba(245, 230, 208, 0.85) 60%, transparent 100%);
+  padding-top: 48px;
 }
 .footer-copy {
   font-weight: 400;
   font-size: 13px;
   line-height: 19.5px;
-  color: var(--grey-45);
+  color: rgba(21,16,46,0.35);
 }
-.footer-links { display: flex; gap: 32px; }
+.footer-links { display: flex; gap: 32px; pointer-events: auto; }
 .footer-links a {
   font-weight: 400;
   font-size: 13px;
   line-height: 19.5px;
-  color: var(--grey-45);
+  color: rgba(21,16,46,0.35);
   text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--blue-12); }
+
+/* ===== RESPONSIVE — FLUID + BREAKPOINTS ===== */
+
+/* -- Fluid typography with clamp (scales 375px → 1440px → 3840px) -- */
+.hero-title-line1,
+.hero-title-line2 {
+  font-size: clamp(32px, 5vw, 80px);
+  line-height: 1.06;
+}
+.hiw-title {
+  font-size: clamp(28px, 4vw, 60px);
+  line-height: 1.12;
+}
+.rewards-title {
+  font-size: clamp(28px, 4vw, 60px);
+  line-height: 1.1;
+}
+.friend-title {
+  font-size: clamp(26px, 3.5vw, 52px);
+  line-height: 1.2;
+}
+.community-title {
+  font-size: clamp(26px, 3.5vw, 52px);
+  line-height: 1.15;
+}
+.faq-heading {
+  font-size: clamp(28px, 4vw, 48px);
+}
+.cta-title {
+  font-size: clamp(32px, 4.2vw, 68px);
+  line-height: 1.08;
+}
+.cta-title-italic {
+  font-size: clamp(32px, 4.2vw, 68px);
+  line-height: 1.08;
+}
+.stat-number {
+  font-size: clamp(36px, 5vw, 80px);
+}
+.slot-popup-prize {
+  font-size: clamp(36px, 6vw, 52px);
+}
+
+/* -- Fluid spacing -- */
+.hero-badge { margin-top: clamp(32px, 5vw, 64px); }
+.hero-title { margin-top: clamp(24px, 3vw, 48px); }
+.rewards { padding: clamp(56px, 8vw, 128px) 20px; }
+.friend-section { padding: clamp(56px, 7vw, 112px) 20px; }
+.how-it-works { padding: clamp(32px, 5vw, 64px) 20px clamp(56px, 9vw, 144px); }
+.marquee-section { margin-top: clamp(40px, 6vw, 96px); margin-bottom: clamp(40px, 6vw, 96px); }
+
+/* -- Small phones (≤ 480px) -- */
+@media (max-width: 480px) {
+  .nav { padding: 0 16px; height: 56px; }
+  .nav-buttons .btn-base { padding: 8px 16px; font-size: 13px; }
+
+  .hero-subtitle { font-size: 15px; line-height: 24px; }
+  .hero-cta .btn-pill { padding: 0 28px; height: 46px; font-size: 14px; }
+  .hero-bottom { height: 40px; }
+
+  .stats-bar-inner {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0;
+  }
+  .stat-item { padding: 24px 20px; border-radius: 16px; }
+
+  .marquee-section { height: 80px; }
+  .marquee-item { font-size: 16px; line-height: 24px; padding-right: 24px; }
+  .marquee-sep { padding-right: 24px; font-size: 12px; }
+
+  .hiw-steps { margin-top: 40px; }
+  .hiw-step { padding: 16px 0 16px 48px; }
+  .hiw-step-node { width: 32px; height: 32px; font-size: 14px; }
+  .hiw-steps::before { left: 15px; }
+  .hiw-track-fill { left: 15px; }
+  .hiw-step-card { padding: 20px 20px; border-radius: 16px; }
+  .hiw-step-title { font-size: 20px; line-height: 26px; }
+  .hiw-step-num { font-size: 36px; }
+
+  .slot-coins { gap: 10px; margin-top: 32px; flex-wrap: wrap; }
+  .slot-coin { width: 64px; height: 64px; }
+  .slot-coin:nth-child(3) { width: 72px; height: 72px; }
+  .slot-coin-number { font-size: 24px; }
+  .slot-coin:nth-child(3) .slot-coin-number { font-size: 28px; }
+  .slot-coin-tier { font-size: 7px; bottom: -20px; }
+  .slot-coin-prize { font-size: 10px; bottom: -34px; }
+  .slot-coin::before { inset: 5px; }
+
+  .slot-machine { padding: 20px 16px; margin-top: 48px; border-radius: 16px; }
+  .slot-reels { gap: 8px; }
+  .slot-reel { width: 80px; height: 80px; border-radius: 12px; }
+  .slot-reel-item { width: 80px; height: 80px; font-size: 36px; }
+
+  .slot-popup { width: 95%; }
+  .slot-popup-banner { padding: 24px 20px 20px; }
+  .slot-popup-emoji-ring { width: 64px; height: 64px; }
+  .slot-popup-emoji { font-size: 28px; }
+  .slot-popup-body { padding: 20px 20px 28px; }
+  .slot-popup-actions { flex-direction: column; }
+  .slot-popup-cta,
+  .slot-popup-cta-secondary { width: 100%; justify-content: center; }
+
+  .friend-bento { grid-template-columns: 1fr; }
+  .fb-hero { flex-direction: column; }
+  .fb-hero-left { flex-direction: row; align-items: center; gap: 12px; padding: 20px 24px 0; }
+  .fb-hero-content { padding: 20px 24px 24px; }
+  .fb-compact { flex-direction: column; gap: 12px; }
+  .fb-compact-stat { flex-direction: row; gap: 8px; align-items: baseline; }
+
+  .community-board { gap: 12px; flex-direction: column; align-items: center; }
+  .board-card { min-width: 100%; }
+  .flap { width: 36px; height: 48px; }
+  .flap-inner { font-size: 28px; }
+  .flap-suffix { font-size: 20px; }
+
+  .faq-inner { grid-template-columns: 1fr; gap: 32px; }
+  .faq-left { position: static; }
+  .faq-question { font-size: 16px; }
+  .faq-answer-card { padding: 16px 18px; }
+  .faq-answer-card p { font-size: 14px; line-height: 1.65; }
+
+  .footer-mega { min-height: 550px; }
+  .footer-mega-cta { padding: 56px 16px 32px; }
+  .footer-mega-bar {
+    justify-content: center;
+    text-align: center;
+    padding: 16px 16px 20px;
+  }
+  .btn-pill-dark { padding: 12px 32px; font-size: 14px; }
+}
+
+/* -- Tablets (481px — 768px) -- */
+@media (min-width: 481px) and (max-width: 768px) {
+  .nav { padding: 0 24px; }
+
+  .stats-bar-inner { gap: 12px; padding: 0; }
+  .stat-item { padding: 28px 16px 24px; }
+
+  .slot-coins { gap: 14px; }
+  .slot-coin { width: 80px; height: 80px; }
+  .slot-coin:nth-child(3) { width: 88px; height: 88px; }
+  .slot-coin-number { font-size: 28px; }
+  .slot-machine { padding: 28px 24px; }
+  .slot-reel { width: 100px; height: 100px; border-radius: 16px; }
+  .slot-reel-item { width: 100px; height: 100px; font-size: 44px; }
+
+  .friend-bento { grid-template-columns: 1fr; }
+  .fb-hero { flex-direction: column; }
+  .fb-hero-left { flex-direction: row; align-items: center; gap: 16px; padding: 24px 28px 0; }
+
+  .community-board { gap: 14px; }
+  .board-card { min-width: auto; }
+
+  .faq-inner { grid-template-columns: 1fr; gap: 36px; }
+  .faq-left { position: static; }
+  .faq-question { font-size: 18px; }
+
+  .footer-mega { min-height: 600px; }
+  .footer-mega-cta { padding: 72px 20px 40px; }
+  .footer-mega-bar {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* -- Small desktop (769px — 1024px) -- */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .faq-heading { font-size: 36px; }
+}
+
+/* -- Large desktop / 2K+ (≥ 1440px) -- */
+@media (min-width: 1440px) {
+  .nav { max-width: 1400px; }
+  .hero-inner { max-width: 1200px; }
+  .stats-bar-inner { max-width: 1200px; }
+  .how-it-works-inner { max-width: 1100px; }
+  .rewards-inner { max-width: 860px; }
+  .friend-inner { max-width: 1100px; }
+  .community-inner { max-width: 1200px; }
+  .faq-inner { max-width: 1100px; }
+  .footer-mega-bar { max-width: 1200px; }
+
+  .hiw-steps { max-width: 720px; }
+  .hiw-step-card { padding: 36px 40px; }
+
+  .hero-subtitle { font-size: 18px; max-width: 520px; }
+  .hero-cta .btn-pill { height: 56px; padding: 0 56px; font-size: 17px; }
+  .btn-base { font-size: 17px; }
+
+  .slot-coin { width: 110px; height: 110px; }
+  .slot-coin:nth-child(3) { width: 124px; height: 124px; }
+  .slot-coin-number { font-size: 40px; }
+  .slot-reel { width: 140px; height: 140px; }
+  .slot-reel-item { width: 140px; height: 140px; font-size: 64px; }
+
+  .board-card { padding: 32px; }
+  .flap { width: 56px; height: 72px; }
+  .flap-inner { font-size: 42px; }
+}
+
+/* -- 4K+ (≥ 2560px) -- */
+@media (min-width: 2560px) {
+  .nav { max-width: 1800px; }
+  .hero-inner { max-width: 1600px; }
+  .stats-bar-inner { max-width: 1600px; }
+  .how-it-works-inner { max-width: 1400px; }
+  .rewards-inner { max-width: 1100px; }
+  .friend-inner { max-width: 1400px; }
+  .community-inner { max-width: 1600px; }
+  .faq-inner { max-width: 1400px; }
+  .footer-mega-bar { max-width: 1600px; }
+  .footer-mega-cta { max-width: 900px; }
+
+  .hiw-steps { max-width: 900px; }
+  .hiw-step-card { padding: 44px 48px; }
+  .hiw-step-title { font-size: 32px; line-height: 38px; }
+  .hiw-step-text { font-size: 17px; line-height: 30px; }
+  .hiw-desc { font-size: 18px; max-width: 600px; }
+
+  .hero-subtitle { font-size: 20px; max-width: 580px; line-height: 32px; }
+  .hero-cta .btn-pill { height: 60px; padding: 0 64px; font-size: 18px; }
+  .btn-base { font-size: 18px; }
+
+  .rewards-desc { font-size: 18px; max-width: 540px; }
+  .friend-desc { font-size: 18px; max-width: 580px; }
+
+  .slot-coin { width: 130px; height: 130px; }
+  .slot-coin:nth-child(3) { width: 144px; height: 144px; }
+  .slot-coin-number { font-size: 48px; }
+  .slot-machine { padding: 48px 56px; }
+  .slot-reels { gap: 20px; }
+  .slot-reel { width: 160px; height: 160px; }
+  .slot-reel-item { width: 160px; height: 160px; font-size: 72px; }
+
+  .stat-item { padding: 44px 32px 40px; }
+  .stat-desc { font-size: 16px; }
+
+  .board-card { padding: 36px; }
+  .flap { width: 64px; height: 80px; }
+  .flap-inner { font-size: 48px; }
+  .flap-suffix { font-size: 32px; }
+
+  .faq-question { font-size: 26px; }
+  .faq-answer-card p { font-size: 17px; }
+
+  .footer-mega { min-height: 900px; }
+  .section-label { font-size: 13px; letter-spacing: 4px; }
 }

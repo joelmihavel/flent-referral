@@ -1,84 +1,88 @@
-import { confettiColors } from './constants';
+import confetti from 'canvas-confetti';
 
-interface ConfettiPiece {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  color: string;
-  vx: number;
-  vy: number;
-  rot: number;
-  rotV: number;
-  opacity: number;
-}
+const flentColors = ['#ff9a6d', '#93f2e9', '#ff90b3', '#ffe98a', '#dad7f4', '#cff0e9', '#ffa37b', '#008e75', '#332873'];
 
-let confettiPieces: ConfettiPiece[] = [];
-let confettiAnimId: number | null = null;
+export function launchConfetti() {
+  const duration = 3000;
+  const end = Date.now() + duration;
 
-export function launchConfetti(canvas: HTMLCanvasElement) {
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  // Initial big burst from both sides
+  confetti({
+    particleCount: 80,
+    spread: 70,
+    origin: { x: 0.15, y: 0.6 },
+    colors: flentColors,
+    startVelocity: 55,
+    gravity: 0.8,
+    ticks: 300,
+    shapes: ['square', 'circle'],
+    scalar: 1.1,
+    angle: 60,
+    drift: 0.5,
+  });
+  confetti({
+    particleCount: 80,
+    spread: 70,
+    origin: { x: 0.85, y: 0.6 },
+    colors: flentColors,
+    startVelocity: 55,
+    gravity: 0.8,
+    ticks: 300,
+    shapes: ['square', 'circle'],
+    scalar: 1.1,
+    angle: 120,
+    drift: -0.5,
+  });
 
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  canvas.style.width = w + 'px';
-  canvas.style.height = h + 'px';
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  confettiPieces = [];
-  for (let i = 0; i < 80; i++) {
-    confettiPieces.push({
-      x: Math.random() * w,
-      y: Math.random() * -h * 0.5,
-      w: Math.random() * 10 + 5,
-      h: Math.random() * 6 + 3,
-      color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
-      vx: (Math.random() - 0.5) * 4,
-      vy: Math.random() * 3 + 2,
-      rot: Math.random() * 360,
-      rotV: (Math.random() - 0.5) * 12,
-      opacity: 1,
+  // Center cannon burst
+  setTimeout(() => {
+    confetti({
+      particleCount: 60,
+      spread: 100,
+      origin: { x: 0.5, y: 0.5 },
+      colors: flentColors,
+      startVelocity: 45,
+      gravity: 0.7,
+      ticks: 250,
+      shapes: ['square', 'circle'],
+      scalar: 1.2,
     });
-  }
+  }, 150);
 
-  if (confettiAnimId) cancelAnimationFrame(confettiAnimId);
-
-  function animate() {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, w, h);
-    let alive = false;
-
-    for (let i = 0; i < confettiPieces.length; i++) {
-      const p = confettiPieces[i];
-      if (p.opacity <= 0) continue;
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += 0.06;
-      p.rot += p.rotV;
-      if (p.y > h + 20) p.opacity -= 0.03;
-      alive = true;
-      ctx.globalAlpha = p.opacity;
-      ctx.fillStyle = p.color;
-      const rad = p.rot * 0.01745329;
-      const cos = Math.cos(rad);
-      const sin = Math.sin(rad);
-      ctx.setTransform(cos, sin, -sin, cos, p.x, p.y);
-      ctx.fillRect(-p.w * 0.5, -p.h * 0.5, p.w, p.h);
+  // Continuous shower
+  const interval = setInterval(() => {
+    if (Date.now() > end) {
+      clearInterval(interval);
+      return;
     }
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.globalAlpha = 1;
 
-    if (alive) {
-      confettiAnimId = requestAnimationFrame(animate);
-    } else {
-      ctx.clearRect(0, 0, w, h);
-      confettiAnimId = null;
-    }
-  }
+    confetti({
+      particleCount: 3,
+      spread: 60,
+      origin: { x: Math.random(), y: -0.05 },
+      colors: flentColors,
+      startVelocity: 0,
+      gravity: 0.6,
+      ticks: 400,
+      shapes: ['square'],
+      scalar: 0.9,
+      drift: (Math.random() - 0.5) * 1.5,
+    });
+  }, 50);
 
-  animate();
+  // Stars burst at the end
+  setTimeout(() => {
+    confetti({
+      particleCount: 30,
+      spread: 360,
+      origin: { x: 0.5, y: 0.4 },
+      colors: ['#ffe98a', '#ffa37b', '#ff90b3'],
+      startVelocity: 30,
+      gravity: 0.5,
+      ticks: 200,
+      shapes: ['star' as confetti.Shape],
+      scalar: 1.5,
+      flat: true,
+    });
+  }, 600);
 }

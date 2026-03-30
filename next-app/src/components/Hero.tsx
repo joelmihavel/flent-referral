@@ -9,9 +9,9 @@ export default function Hero() {
       <div className="hero-inner">
         <motion.div
           className="hero-badge"
-          initial={{ opacity: 0, y: -15, scale: 0.9 }}
+          initial={{ opacity: 0, y: -12, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.35, delay: 0.15, ease: [0.25, 1, 0.5, 1] }}
         >
           <div className="hero-badge-dot" />
           <span className="hero-badge-text">Open to everyone — tenants and non-tenants</span>
@@ -22,34 +22,34 @@ export default function Hero() {
             text="Refer friends to Flent."
             className="hero-title-line1"
             tag="div"
-            charDelay={0.035}
-            startDelay={0.5}
+            charDelay={0.02}
+            startDelay={0.25}
             once
           />
           <TypingText
             text="Earn real rewards."
             className="hero-title-line2"
             tag="div"
-            charDelay={0.04}
-            startDelay={1.2}
+            charDelay={0.025}
+            startDelay={0.7}
             once
           />
         </div>
 
         <motion.p
           className="hero-subtitle"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 2.0, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.4, delay: 1.15, ease: [0.25, 1, 0.5, 1] }}
         >
           Share your code. Friend moves in. You earn — and every milestone gets better.
         </motion.p>
 
         <motion.div
           className="hero-cta"
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 2.3, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.4, delay: 1.35, ease: [0.25, 1, 0.5, 1] }}
         >
           <motion.button
             className="btn-base btn-pill"

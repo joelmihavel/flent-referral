@@ -16,7 +16,6 @@ export default function RewardsSection() {
   const [machineState, setMachineState] = useState<'idle' | 'spinning' | 'won'>('idle');
   const [popupData, setPopupData] = useState<TierData | null>(null);
   const [showPopup, setShowPopup] = useState(false);
-  const confettiRef = useRef<HTMLCanvasElement>(null);
   const reelRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
   const [mounted, setMounted] = useState(false);
 
@@ -60,7 +59,8 @@ export default function RewardsSection() {
 
     if (tracks[0]) void tracks[0].offsetHeight;
 
-    const itemH = 128;
+    const firstItem = tracks[0]?.querySelector('.slot-reel-item') as HTMLElement | null;
+    const itemH = firstItem?.offsetHeight || 128;
     const stopAt = -(20 * itemH);
 
     tracks.forEach((track, i) => {
@@ -78,7 +78,7 @@ export default function RewardsSection() {
       setMachineState('won');
       setPopupData(data);
       setShowPopup(true);
-      if (confettiRef.current) launchConfetti(confettiRef.current);
+      launchConfetti();
       setIsSpinning(false);
     }, totalDuration);
   }, [isSpinning, buildReel]);
@@ -101,7 +101,7 @@ export default function RewardsSection() {
 
   const handleClaim = useCallback(() => {
     closePopup();
-    document.querySelector('.cta-section')?.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector('.footer-mega')?.scrollIntoView({ behavior: 'smooth' });
   }, [closePopup]);
 
   return (
@@ -115,10 +115,10 @@ export default function RewardsSection() {
           text="Every referral, a better reward"
           className="rewards-title"
           tag="h2"
-          charDelay={0.025}
-          startDelay={0.15}
+          charDelay={0.015}
+          startDelay={0.08}
         />
-        <ScrollReveal delay={0.3}>
+        <ScrollReveal delay={0.15}>
           <p className="rewards-desc">Build your streak. Each move-in unlocks the next tier — and the prizes keep getting better.</p>
         </ScrollReveal>
 
@@ -143,7 +143,7 @@ export default function RewardsSection() {
         </StaggerChildren>
 
         {/* Slot Machine */}
-        <ScrollReveal y={50} duration={0.9}>
+        <ScrollReveal y={35} duration={0.5}>
           <div className={`slot-machine${machineState === 'spinning' ? ' spinning' : ''}${machineState === 'won' ? ' won' : ''}`}>
             <div className="slot-machine-top">
               <div className="slot-machine-light" />
@@ -183,14 +183,14 @@ export default function RewardsSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.35 }}
+                transition={{ duration: 0.2 }}
               >
                 <motion.div
                   className="slot-popup"
-                  initial={{ y: 40, scale: 0.9, opacity: 0 }}
+                  initial={{ y: 30, scale: 0.92, opacity: 0 }}
                   animate={{ y: 0, scale: 1, opacity: 1 }}
-                  exit={{ y: 20, scale: 0.95, opacity: 0 }}
-                  transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                  exit={{ y: 15, scale: 0.95, opacity: 0 }}
+                  transition={{ type: 'spring', damping: 22, stiffness: 400 }}
                   style={{ transform: 'none' }}
                 >
                   <div className="slot-popup-banner" style={{ background: popupData ? bannerColors[popupData.tier - 1] : undefined }}>
@@ -199,15 +199,15 @@ export default function RewardsSection() {
                       style={{ background: 'var(--white)' }}
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
-                      transition={{ type: 'spring', damping: 12, stiffness: 200, delay: 0.15 }}
+                      transition={{ type: 'spring', damping: 14, stiffness: 300, delay: 0.08 }}
                     >
                       <div className="slot-popup-emoji">{popupData?.emoji}</div>
                     </motion.div>
                     <motion.div
                       className="slot-popup-tier"
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3, duration: 0.4 }}
+                      transition={{ delay: 0.15, duration: 0.25 }}
                     >
                       TIER {popupData?.tier}{popupData?.tier === 5 ? ' — GRAND PRIZE' : ''}
                     </motion.div>
@@ -215,9 +215,9 @@ export default function RewardsSection() {
                   <div className="slot-popup-body">
                     <motion.div
                       className="slot-popup-prize"
-                      initial={{ opacity: 0, scale: 0.8 }}
+                      initial={{ opacity: 0, scale: 0.85 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.2, type: 'spring', stiffness: 300 }}
+                      transition={{ delay: 0.1, type: 'spring', stiffness: 400 }}
                     >
                       {popupData?.prize}
                     </motion.div>
@@ -225,7 +225,7 @@ export default function RewardsSection() {
                       className="slot-popup-name"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.35 }}
+                      transition={{ delay: 0.18 }}
                     >
                       {popupData?.name}
                     </motion.div>
@@ -233,7 +233,7 @@ export default function RewardsSection() {
                       className="slot-popup-desc"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.4 }}
+                      transition={{ delay: 0.22 }}
                     >
                       {popupData?.desc}
                     </motion.div>
@@ -241,15 +241,15 @@ export default function RewardsSection() {
                       className="slot-popup-referrals"
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.45, type: 'spring', stiffness: 400 }}
+                      transition={{ delay: 0.26, type: 'spring', stiffness: 500 }}
                     >
                       {popupData && `${popupData.refs} ${popupData.refs === 1 ? 'referral needed' : 'referrals needed'}`}
                     </motion.div>
                     <motion.div
                       className="slot-popup-actions"
-                      initial={{ opacity: 0, y: 15 }}
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5, duration: 0.4 }}
+                      transition={{ delay: 0.3, duration: 0.25 }}
                     >
                       <button className="slot-popup-cta-secondary" onClick={closePopup}>Try another tier</button>
                       <button className="slot-popup-cta" onClick={handleClaim}>Start referring</button>
@@ -259,7 +259,6 @@ export default function RewardsSection() {
               </motion.div>
             )}
           </AnimatePresence>
-          <canvas className="confetti-canvas" ref={confettiRef} />
         </>,
         document.body
       )}

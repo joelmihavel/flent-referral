@@ -59,7 +59,7 @@ export default function HowItWorks() {
 
   return (
     <section className="how-it-works">
-      <div className="hiw-header" style={{ maxWidth: 960, margin: '0 auto' }}>
+      <div className="hiw-header">
         <ScrollReveal>
           <div className="section-label centered">How it works</div>
         </ScrollReveal>
@@ -67,10 +67,10 @@ export default function HowItWorks() {
           text="How Flent Referrals Work"
           className="hiw-title"
           tag="h2"
-          charDelay={0.03}
-          startDelay={0.15}
+          charDelay={0.018}
+          startDelay={0.08}
         />
-        <ScrollReveal delay={0.3}>
+        <ScrollReveal delay={0.15}>
           <p className="hiw-desc">A simple, trackable journey — built to feel private, premium, and worth sharing.</p>
         </ScrollReveal>
       </div>
@@ -83,13 +83,13 @@ export default function HowItWorks() {
             className={`hiw-step${i <= activeIndex ? ' active' : ''}`}
             data-step={i + 1}
             ref={(el) => { stepRefs.current[i] = el; }}
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.3 }}
             transition={{
-              duration: 0.7,
-              delay: i * 0.1,
-              ease: [0.16, 1, 0.3, 1],
+              duration: 0.4,
+              delay: i * 0.06,
+              ease: [0.25, 1, 0.5, 1],
             }}
           >
             <div className="hiw-step-node">{i + 1}</div>

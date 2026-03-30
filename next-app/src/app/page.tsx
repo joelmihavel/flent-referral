@@ -7,7 +7,6 @@ import RewardsSection from '@/components/rewards/RewardsSection';
 import FriendBento from '@/components/FriendBento';
 import CommunityBoard from '@/components/CommunityBoard';
 import FaqAccordion from '@/components/FaqAccordion';
-import CtaSection from '@/components/CtaSection';
 import Footer from '@/components/Footer';
 import SmoothScroll from '@/components/SmoothScroll';
 
@@ -26,7 +25,6 @@ export default function Home() {
       <FriendBento />
       <CommunityBoard />
       <FaqAccordion />
-      <CtaSection />
       <Footer />
     </SmoothScroll>
   );

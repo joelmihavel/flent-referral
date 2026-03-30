@@ -112,8 +112,8 @@ export default function CommunityBoard() {
           text="A community that's already growing fast"
           className="community-title"
           tag="h2"
-          charDelay={0.02}
-          startDelay={0.15}
+          charDelay={0.012}
+          startDelay={0.08}
         />
         <div className="community-board" ref={boardRef}>
           {boardCards.map((card, cardIndex) => {
@@ -124,13 +124,13 @@ export default function CommunityBoard() {
                 className="board-card"
                 key={cardIndex}
                 data-target={card.target}
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                initial={{ opacity: 0, y: 25, scale: 0.96 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: false, amount: 0.3 }}
                 transition={{
-                  duration: 0.7,
-                  delay: cardIndex * 0.12,
-                  ease: [0.16, 1, 0.3, 1],
+                  duration: 0.4,
+                  delay: cardIndex * 0.07,
+                  ease: [0.25, 1, 0.5, 1],
                 }}
                 whileHover={{ y: -5 }}
               >
