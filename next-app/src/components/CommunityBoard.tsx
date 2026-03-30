@@ -1,8 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { boardCards } from '@/lib/constants';
 import ScrollReveal from './ScrollReveal';
+import TypingText from './TypingText';
 
 function FlapDigit({ accentColor }: { accentColor: string }) {
   return (
@@ -18,6 +20,19 @@ export default function CommunityBoard() {
   const sectionRef = useRef<HTMLElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
   const animatedRef = useRef(false);
+
+  const resetFlaps = useCallback(() => {
+    const cards = boardRef.current?.querySelectorAll('.board-card') as NodeListOf<HTMLElement>;
+    cards?.forEach(card => {
+      const flaps = card.querySelectorAll('.flap') as NodeListOf<HTMLElement>;
+      flaps.forEach(flap => {
+        flap.dataset.char = '0';
+        flap.classList.remove('flipping');
+        (flap.querySelector('.flap-top .flap-inner') as HTMLElement).textContent = '0';
+        (flap.querySelector('.flap-bottom .flap-inner') as HTMLElement).textContent = '0';
+      });
+    });
+  }, []);
 
   const flipToChar = useCallback((flap: HTMLElement, newChar: string): Promise<void> => {
     return new Promise(resolve => {
@@ -75,42 +90,64 @@ export default function CommunityBoard() {
           cards?.forEach((card, i) => {
             setTimeout(() => animateCard(card), i * 300);
           });
-          observer.disconnect();
+        } else if (!entry.isIntersecting && animatedRef.current) {
+          // Reset when leaving viewport so it re-triggers
+          animatedRef.current = false;
+          resetFlaps();
         }
       });
     }, { threshold: 0.3 });
 
     observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, [animateCard]);
+  }, [animateCard, resetFlaps]);
 
   return (
-    <ScrollReveal>
-      <section className="community" id="community-section" ref={sectionRef}>
-        <div className="community-inner">
+    <section className="community" id="community-section" ref={sectionRef}>
+      <div className="community-inner">
+        <ScrollReveal>
           <div className="section-label centered">By the numbers</div>
-          <h2 className="community-title">A community that&apos;s already growing fast</h2>
-          <div className="community-board" ref={boardRef}>
-            {boardCards.map((card, cardIndex) => {
-              const digitCount = card.target.length;
-              const hasCurrencyPrefix = cardIndex === 0;
-              return (
-                <div className="board-card" key={cardIndex} data-target={card.target}>
-                  <div className="board-digits">
-                    {hasCurrencyPrefix && <div className="flap-suffix">₹</div>}
-                    {Array.from({ length: digitCount }).map((_, i) => (
-                      <FlapDigit key={i} accentColor={card.accentColor} />
-                    ))}
-                    <div className="flap-suffix">{card.suffix}</div>
-                  </div>
-                  <div className="board-card-label">{card.label}</div>
-                  <p className="board-card-text">{card.text}</p>
+        </ScrollReveal>
+        <TypingText
+          text="A community that's already growing fast"
+          className="community-title"
+          tag="h2"
+          charDelay={0.02}
+          startDelay={0.15}
+        />
+        <div className="community-board" ref={boardRef}>
+          {boardCards.map((card, cardIndex) => {
+            const digitCount = card.target.length;
+            const hasCurrencyPrefix = cardIndex === 0;
+            return (
+              <motion.div
+                className="board-card"
+                key={cardIndex}
+                data-target={card.target}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{
+                  duration: 0.7,
+                  delay: cardIndex * 0.12,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="board-digits">
+                  {hasCurrencyPrefix && <div className="flap-suffix">₹</div>}
+                  {Array.from({ length: digitCount }).map((_, i) => (
+                    <FlapDigit key={i} accentColor={card.accentColor} />
+                  ))}
+                  <div className="flap-suffix">{card.suffix}</div>
                 </div>
-              );
-            })}
-          </div>
+                <div className="board-card-label">{card.label}</div>
+                <p className="board-card-text">{card.text}</p>
+              </motion.div>
+            );
+          })}
         </div>
-      </section>
-    </ScrollReveal>
+      </div>
+    </section>
   );
 }

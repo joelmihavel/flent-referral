@@ -9,10 +9,11 @@ import CommunityBoard from '@/components/CommunityBoard';
 import FaqAccordion from '@/components/FaqAccordion';
 import CtaSection from '@/components/CtaSection';
 import Footer from '@/components/Footer';
+import SmoothScroll from '@/components/SmoothScroll';
 
 export default function Home() {
   return (
-    <>
+    <SmoothScroll>
       <div className="hero-pattern-wrapper">
         <Nav />
         <Hero />
@@ -27,6 +28,6 @@ export default function Home() {
       <FaqAccordion />
       <CtaSection />
       <Footer />
-    </>
+    </SmoothScroll>
   );
 }

@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { faqItems } from '@/lib/constants';
 import ScrollReveal from './ScrollReveal';
+import TypingText from './TypingText';
 
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -65,7 +67,6 @@ export default function FaqAccordion() {
   const handleToggle = useCallback((index: number) => {
     const isOpen = openIndex === index;
 
-    // Close current if open
     if (openIndex !== null) {
       resetAnswer(openIndex);
     }
@@ -82,18 +83,57 @@ export default function FaqAccordion() {
   return (
     <section className="faq">
       <div className="faq-inner">
-        <ScrollReveal className="faq-left">
-          <h2 className="faq-heading">You got questions? <em>We got answers.</em></h2>
-          <p className="faq-subtitle">Everything you need to know about the Flent Referral Program.</p>
-        </ScrollReveal>
-        <ScrollReveal className="faq-right" delay={0.1}>
+        <div className="faq-left">
+          <TypingText
+            text="You got questions?"
+            className="faq-heading"
+            tag="h2"
+            charDelay={0.03}
+            startDelay={0.1}
+          />
+          <ScrollReveal delay={0.5}>
+            <em style={{
+              fontFamily: 'var(--font-serif)',
+              fontStyle: 'italic',
+              display: 'block',
+              color: 'var(--forest-green)',
+              fontSize: '44px',
+              lineHeight: 1.15,
+              fontWeight: 800,
+            }}>
+              We got answers.
+            </em>
+          </ScrollReveal>
+          <ScrollReveal delay={0.6}>
+            <p className="faq-subtitle">Everything you need to know about the Flent Referral Program.</p>
+          </ScrollReveal>
+        </div>
+
+        <ScrollReveal className="faq-right" delay={0.15}>
           <p className="faq-right-label">Common questions about referrals</p>
           <div className="faq-list">
             {faqItems.map((item, i) => (
-              <div key={i} className={`faq-item${openIndex === i ? ' open' : ''}`}>
+              <motion.div
+                key={i}
+                className={`faq-item${openIndex === i ? ' open' : ''}`}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.1 }}
+                transition={{
+                  duration: 0.5,
+                  delay: i * 0.06,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
                 <button className="faq-button" onClick={() => handleToggle(i)}>
                   <span className="faq-question">{item.question}</span>
-                  <span className="faq-toggle">{openIndex === i ? '−' : '+'}</span>
+                  <motion.span
+                    className="faq-toggle"
+                    animate={{ rotate: openIndex === i ? 45 : 0 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    +
+                  </motion.span>
                 </button>
                 <div className="faq-answer">
                   <div>
@@ -102,15 +142,19 @@ export default function FaqAccordion() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </ScrollReveal>
       </div>
       <ScrollReveal className="faq-footer-wrap">
-        <div className="faq-footer-card">
+        <motion.div
+          className="faq-footer-card"
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+        >
           <p className="faq-footer">Still have questions? <a href="mailto:sales@flent.in">Email us at sales@flent.in</a></p>
-        </div>
+        </motion.div>
       </ScrollReveal>
     </section>
   );

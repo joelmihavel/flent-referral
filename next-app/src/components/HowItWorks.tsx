@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { hiwSteps } from '@/lib/constants';
+import TypingText from './TypingText';
 import ScrollReveal from './ScrollReveal';
 import Image from 'next/image';
 
@@ -28,7 +30,6 @@ export default function HowItWorks() {
 
       setActiveIndex(newActive);
 
-      // Update track fill
       if (trackFillRef.current && stepRefs.current[0] && stepRefs.current[newActive]) {
         const firstNode = stepRefs.current[0]?.querySelector('.hiw-step-node') as HTMLElement;
         const activeNode = stepRefs.current[newActive]?.querySelector('.hiw-step-node') as HTMLElement;
@@ -58,21 +59,38 @@ export default function HowItWorks() {
 
   return (
     <section className="how-it-works">
-      <ScrollReveal>
-        <div className="hiw-header" style={{ maxWidth: 960, margin: '0 auto' }}>
+      <div className="hiw-header" style={{ maxWidth: 960, margin: '0 auto' }}>
+        <ScrollReveal>
           <div className="section-label centered">How it works</div>
-          <h2 className="hiw-title">How Flent Referrals Work</h2>
+        </ScrollReveal>
+        <TypingText
+          text="How Flent Referrals Work"
+          className="hiw-title"
+          tag="h2"
+          charDelay={0.03}
+          startDelay={0.15}
+        />
+        <ScrollReveal delay={0.3}>
           <p className="hiw-desc">A simple, trackable journey — built to feel private, premium, and worth sharing.</p>
-        </div>
-      </ScrollReveal>
+        </ScrollReveal>
+      </div>
+
       <div className="hiw-steps" ref={stepsRef}>
         <div className="hiw-track-fill" ref={trackFillRef} />
         {hiwSteps.map((step, i) => (
-          <div
+          <motion.div
             key={i}
             className={`hiw-step${i <= activeIndex ? ' active' : ''}`}
             data-step={i + 1}
             ref={(el) => { stepRefs.current[i] = el; }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{
+              duration: 0.7,
+              delay: i * 0.1,
+              ease: [0.16, 1, 0.3, 1],
+            }}
           >
             <div className="hiw-step-node">{i + 1}</div>
             <div className="hiw-step-card">
@@ -88,7 +106,7 @@ export default function HowItWorks() {
                 <p className="hiw-step-text">{step.text}</p>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

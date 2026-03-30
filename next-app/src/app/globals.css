@@ -102,9 +102,7 @@
 /* ===== GLOBAL RESET ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Lenis handles smooth scroll — no native scroll-behavior needed */
 
 body {
   font-family: var(--font-sans);

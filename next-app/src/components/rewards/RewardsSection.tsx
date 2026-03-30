@@ -2,10 +2,13 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { tierData, allSymbols, bannerColors, coinDisplayData } from '@/lib/constants';
 import { launchConfetti } from '@/lib/confetti';
 import type { TierData } from '@/types';
 import ScrollReveal from '../ScrollReveal';
+import TypingText from '../TypingText';
+import StaggerChildren, { StaggerItem } from '../StaggerChildren';
 
 export default function RewardsSection() {
   const [isSpinning, setIsSpinning] = useState(false);
@@ -55,7 +58,6 @@ export default function RewardsSection() {
       buildReel(2, winSymbol),
     ];
 
-    // Force reflow
     if (tracks[0]) void tracks[0].offsetHeight;
 
     const itemH = 128;
@@ -105,82 +107,158 @@ export default function RewardsSection() {
   return (
     <section className="rewards">
       <div className="rewards-bg" />
-      <ScrollReveal className="rewards-inner">
-        <div className="section-label centered white">Reward Journey</div>
-        <h2 className="rewards-title">Every referral, a better reward</h2>
-        <p className="rewards-desc">Build your streak. Each move-in unlocks the next tier — and the prizes keep getting better.</p>
+      <div className="rewards-inner">
+        <ScrollReveal>
+          <div className="section-label centered white">Reward Journey</div>
+        </ScrollReveal>
+        <TypingText
+          text="Every referral, a better reward"
+          className="rewards-title"
+          tag="h2"
+          charDelay={0.025}
+          startDelay={0.15}
+        />
+        <ScrollReveal delay={0.3}>
+          <p className="rewards-desc">Build your streak. Each move-in unlocks the next tier — and the prizes keep getting better.</p>
+        </ScrollReveal>
 
         {/* Tier Coins */}
-        <div className={`slot-coins${activeCoin !== null ? ' has-active' : ''}`}>
+        <StaggerChildren className={`slot-coins${activeCoin !== null ? ' has-active' : ''}`} stagger={0.08}>
           {coinDisplayData.map((coin, i) => (
-            <div
-              key={i}
-              className={`slot-coin${activeCoin === i ? ' active' : ''}`}
-              data-tier={i + 1}
-              onClick={() => spinSlot(i)}
-            >
-              <span className="slot-coin-tier">{coin.tier}</span>
-              <span className="slot-coin-number">{coin.number}</span>
-              <span className="slot-coin-label">{coin.label}</span>
-              <span className="slot-coin-prize">{coin.prize}</span>
-            </div>
+            <StaggerItem key={i} y={20}>
+              <motion.div
+                className={`slot-coin${activeCoin === i ? ' active' : ''}`}
+                data-tier={i + 1}
+                onClick={() => spinSlot(i)}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="slot-coin-tier">{coin.tier}</span>
+                <span className="slot-coin-number">{coin.number}</span>
+                <span className="slot-coin-label">{coin.label}</span>
+                <span className="slot-coin-prize">{coin.prize}</span>
+              </motion.div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerChildren>
 
         {/* Slot Machine */}
-        <div className={`slot-machine${machineState === 'spinning' ? ' spinning' : ''}${machineState === 'won' ? ' won' : ''}`}>
-          <div className="slot-machine-top">
-            <div className="slot-machine-light" />
-            <div className="slot-machine-light" />
-            <div className="slot-machine-light" />
-            <span className="slot-machine-label">Flent Rewards</span>
-            <div className="slot-machine-light" />
-            <div className="slot-machine-light" />
-            <div className="slot-machine-light" />
+        <ScrollReveal y={50} duration={0.9}>
+          <div className={`slot-machine${machineState === 'spinning' ? ' spinning' : ''}${machineState === 'won' ? ' won' : ''}`}>
+            <div className="slot-machine-top">
+              <div className="slot-machine-light" />
+              <div className="slot-machine-light" />
+              <div className="slot-machine-light" />
+              <span className="slot-machine-label">Flent Rewards</span>
+              <div className="slot-machine-light" />
+              <div className="slot-machine-light" />
+              <div className="slot-machine-light" />
+            </div>
+            <div className="slot-reels">
+              {[0, 1, 2].map(i => (
+                <div className="slot-reel" key={i}>
+                  <div
+                    className="slot-reel-track"
+                    ref={(el) => { reelRefs.current[i] = el; }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="slot-prompt">Pick a coin to spin &amp; reveal your reward</div>
           </div>
-          <div className="slot-reels">
-            {[0, 1, 2].map(i => (
-              <div className="slot-reel" key={i}>
-                <div
-                  className="slot-reel-track"
-                  ref={(el) => { reelRefs.current[i] = el; }}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="slot-prompt">Pick a coin to spin &amp; reveal your reward</div>
-        </div>
+        </ScrollReveal>
 
-        <p className="rewards-footnote">Streak resets only when you redeem — never for missing a month.</p>
-      </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <p className="rewards-footnote">Streak resets only when you redeem — never for missing a month.</p>
+        </ScrollReveal>
+      </div>
 
-      {/* Portal overlay + confetti to document.body so they aren't clipped by overflow:hidden */}
+      {/* Portal overlay + confetti to body */}
       {mounted && createPortal(
         <>
-          <div className={`slot-overlay${showPopup ? ' visible' : ''}`}>
-            <div className="slot-popup">
-              <div className="slot-popup-banner" style={{ background: popupData ? bannerColors[popupData.tier - 1] : undefined }}>
-                <div className="slot-popup-emoji-ring" style={{ background: 'var(--white)' }}>
-                  <div className="slot-popup-emoji">{popupData?.emoji}</div>
-                </div>
-                <div className="slot-popup-tier">
-                  TIER {popupData?.tier}{popupData?.tier === 5 ? ' — GRAND PRIZE' : ''}
-                </div>
-              </div>
-              <div className="slot-popup-body">
-                <div className="slot-popup-prize">{popupData?.prize}</div>
-                <div className="slot-popup-name">{popupData?.name}</div>
-                <div className="slot-popup-desc">{popupData?.desc}</div>
-                <div className="slot-popup-referrals">
-                  {popupData && `${popupData.refs} ${popupData.refs === 1 ? 'referral needed' : 'referrals needed'}`}
-                </div>
-                <div className="slot-popup-actions">
-                  <button className="slot-popup-cta-secondary" onClick={closePopup}>Try another tier</button>
-                  <button className="slot-popup-cta" onClick={handleClaim}>Start referring</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <AnimatePresence>
+            {showPopup && (
+              <motion.div
+                className="slot-overlay visible"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35 }}
+              >
+                <motion.div
+                  className="slot-popup"
+                  initial={{ y: 40, scale: 0.9, opacity: 0 }}
+                  animate={{ y: 0, scale: 1, opacity: 1 }}
+                  exit={{ y: 20, scale: 0.95, opacity: 0 }}
+                  transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                  style={{ transform: 'none' }}
+                >
+                  <div className="slot-popup-banner" style={{ background: popupData ? bannerColors[popupData.tier - 1] : undefined }}>
+                    <motion.div
+                      className="slot-popup-emoji-ring"
+                      style={{ background: 'var(--white)' }}
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ type: 'spring', damping: 12, stiffness: 200, delay: 0.15 }}
+                    >
+                      <div className="slot-popup-emoji">{popupData?.emoji}</div>
+                    </motion.div>
+                    <motion.div
+                      className="slot-popup-tier"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3, duration: 0.4 }}
+                    >
+                      TIER {popupData?.tier}{popupData?.tier === 5 ? ' — GRAND PRIZE' : ''}
+                    </motion.div>
+                  </div>
+                  <div className="slot-popup-body">
+                    <motion.div
+                      className="slot-popup-prize"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.2, type: 'spring', stiffness: 300 }}
+                    >
+                      {popupData?.prize}
+                    </motion.div>
+                    <motion.div
+                      className="slot-popup-name"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.35 }}
+                    >
+                      {popupData?.name}
+                    </motion.div>
+                    <motion.div
+                      className="slot-popup-desc"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      {popupData?.desc}
+                    </motion.div>
+                    <motion.div
+                      className="slot-popup-referrals"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.45, type: 'spring', stiffness: 400 }}
+                    >
+                      {popupData && `${popupData.refs} ${popupData.refs === 1 ? 'referral needed' : 'referrals needed'}`}
+                    </motion.div>
+                    <motion.div
+                      className="slot-popup-actions"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5, duration: 0.4 }}
+                    >
+                      <button className="slot-popup-cta-secondary" onClick={closePopup}>Try another tier</button>
+                      <button className="slot-popup-cta" onClick={handleClaim}>Start referring</button>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <canvas className="confetti-canvas" ref={confettiRef} />
         </>,
         document.body
