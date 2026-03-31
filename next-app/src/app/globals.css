@@ -105,6 +105,9 @@ em, i { font-style: normal; }
 
 /* Lenis handles smooth scroll — no native scroll-behavior needed */
 
+html, body {
+  overflow-x: hidden;
+}
 body {
   font-family: var(--font-sans);
   background-color: var(--grey-98);
