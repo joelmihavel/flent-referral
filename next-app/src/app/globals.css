@@ -1849,7 +1849,7 @@ body {
   .fb-hero-amount-label { font-size: 10px; }
   .fb-hero-icon { width: 44px; height: 44px; border-radius: 12px; margin-bottom: 0; }
   .fb-hero-icon svg { width: 20px; height: 20px; }
-  .fb-hero-content { padding: 16px 20px 20px; }
+  .fb-hero-content { padding: 16px 20px 20px; text-align: left; }
   .fb-hero-heading { font-size: 20px; line-height: 26px; }
   .fb-hero .fb-card-text { font-size: 13px; line-height: 20px; }
   .fb-tall { padding: 24px 20px; }
@@ -1872,9 +1872,10 @@ body {
   .board-card { min-width: 100%; padding: 24px 20px; box-shadow: var(--blue-12) -3px 3px 0px; }
   .board-label { font-size: 9px; }
   .board-digits { gap: 4px; }
-  .flap { width: 32px; height: 44px; }
-  .flap-inner { font-size: 24px; width: 32px; height: 44px; }
-  .flap-suffix { font-size: 18px; height: 44px; }
+  .flap { width: 36px; height: 52px; }
+  .flap-inner { font-size: 28px; width: 36px; height: 52px; }
+  .flap-bottom .flap-inner { margin-top: -26px; }
+  .flap-suffix { font-size: 22px; height: 52px; }
   .board-desc { font-size: 12px; line-height: 18px; margin-top: 12px; }
 
   /* FAQ */
