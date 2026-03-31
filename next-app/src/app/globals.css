@@ -1809,7 +1809,7 @@ body {
   .slot-reel { width: 72px; height: 72px; border-radius: 12px; }
   .slot-reel-item { width: 72px; height: 72px; font-size: 32px; }
   .slot-prompt { font-size: 12px; padding: 10px; }
-  .rewards-title { font-size: 28px; line-height: 34px; overflow-wrap: break-word; word-break: break-word; padding: 0 8px; }
+  .rewards-title { font-size: 24px; line-height: 30px; word-break: keep-all; overflow-wrap: normal; padding: 0 8px; }
   .rewards-desc { font-size: 13px; line-height: 20px; max-width: 300px; }
   .rewards-footnote { font-size: 11px; margin-top: 32px; }
 
@@ -1830,7 +1830,7 @@ body {
 
   /* Friend Bento */
   .friend-section { padding: 56px 16px; }
-  .friend-title { font-size: 28px; line-height: 34px; overflow-wrap: break-word; word-break: break-word; padding: 0 8px; }
+  .friend-title { font-size: 24px; line-height: 30px; word-break: keep-all; overflow-wrap: normal; padding: 0 8px; }
   .friend-desc { font-size: 13px; line-height: 20px; max-width: 300px; }
   .friend-bento { grid-template-columns: 1fr; gap: 12px; margin-top: 32px; }
   .fb-hero { flex-direction: column; }
